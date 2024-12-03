@@ -21,7 +21,7 @@ public class Day<Part1, Part2> {
         System.out.printf(Core.WHITE + "|           " + Core.BLUE + "2024 " + Core.B_BLUE + "advent of code" + Core.BLUE + " day %02d" + Core.WHITE + "           |\n", day);
         System.out.println(Core.WHITE + "x------------------------------------------------x\n" + Core.RESET);
 
-        Scanner input = Core.readInput("Day" + day);
+        Scanner input = Core.readInput("Day" + String.format("%02d", day));
 
         System.out.println(Core.YELLOW + "starting..." + Core.RESET);
 
