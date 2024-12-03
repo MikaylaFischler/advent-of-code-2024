@@ -1,6 +1,5 @@
-package Day1;
+package Day01;
 
-import Common.Core;
 import Common.Day;
 
 import java.util.Arrays;
