@@ -11,9 +11,9 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        Day<Integer, Integer> aoc_day = new Day<>(2, "safe reports", "safe reports");
+        Day<Integer, Integer> aocDay = new Day<>(2, "safe reports", "safe reports");
 
-        Scanner input = aoc_day.start();
+        Scanner input = aocDay.start();
 
         int safe_count = 0;
         int safe_d_count = 0;
@@ -31,10 +31,10 @@ public class Main {
             safe_d_count += (safe != RESULT.UNSAFE) ? 1 : 0;
         }
 
-        aoc_day.recordPart1(safe_count);
-        aoc_day.recordPart2(safe_d_count);
+        aocDay.recordPart1(safe_count);
+        aocDay.recordPart2(safe_d_count);
 
-        aoc_day.complete();
+        aocDay.complete();
     }
 
     /**

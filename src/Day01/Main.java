@@ -10,9 +10,9 @@ public class Main {
     static final int NUM_ROWS = 1000;
 
     public static void main(String[] args) {
-        Day<Integer, Integer> aoc_day = new Day<>(1, "total distance", "similarity score");
+        Day<Integer, Integer> aocDay = new Day<>(1, "total distance", "similarity score");
 
-        Scanner input = aoc_day.start();
+        Scanner input = aocDay.start();
 
         int[] l_list = new int[NUM_ROWS];
         int[] r_list = new int[NUM_ROWS];
@@ -40,7 +40,7 @@ public class Main {
             diff_sum += Math.abs(l_list[i] - r_list[i]);
         }
 
-        aoc_day.recordPart1(diff_sum);
+        aocDay.recordPart1(diff_sum);
 
         int sim_score = 0;
 
@@ -48,8 +48,8 @@ public class Main {
             sim_score += l_list[i] * map.getOrDefault(l_list[i], 0);
         }
 
-        aoc_day.recordPart2(sim_score);
+        aocDay.recordPart2(sim_score);
 
-        aoc_day.complete();
+        aocDay.complete();
     }
 }
