@@ -35,6 +35,12 @@ public class Core {
     public static final String B_CYAN = "\u001B[1;36m";
     public static final String B_WHITE = "\u001B[1;37m";
 
+    /**
+     * Open an Advent of Code day's input.txt file and prepare it into a Scanner.
+     * This exits the program if no file is found.
+     * @param dir the day's directory name
+     * @return scanner instance
+     */
     public static Scanner readInput(String dir) {
         String path ="src/".concat(dir.concat("/input.txt"));
 
