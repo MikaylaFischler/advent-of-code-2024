@@ -10,12 +10,22 @@ public class Day<Part1, Part2> {
     private Part2 part2Answer;
     private long start;
 
+    /**
+     * Create a new advent of code day instance.
+     * @param thisDay this day's number, starting at 1
+     * @param answer1Title a label to print out for the part 1 answer
+     * @param answer2Title a label to print out for the part 2 answer
+     */
     public Day(int thisDay, String answer1Title, String answer2Title) {
         day = thisDay;
         part1Title = answer1Title;
         part2Title = answer2Title;
     }
 
+    /**
+     * Begin a day, printing out a message, reading the input file, and starting the execution timer.
+     * @return input text
+     */
     public Scanner start() {
         System.out.println(Core.WHITE + "x------------------------------------------------x");
         System.out.printf(Core.WHITE + "|           " + Core.BLUE + "2024 " + Core.B_BLUE + "advent of code" + Core.BLUE + " day %02d" + Core.WHITE + "           |\n", day);
@@ -30,14 +40,25 @@ public class Day<Part1, Part2> {
         return input;
     }
 
+    /**
+     * Save the answer to part 1.
+     * @param answer part 1 answer
+     */
     public void recordPart1(Part1 answer) {
         part1Answer = answer;
     }
 
+    /**
+     * Save the answer to part 2.
+     * @param answer part 2 answer
+     */
     public void recordPart2(Part2 answer) {
         part2Answer = answer;
     }
 
+    /**
+     * Finish the day, printing out the results and execution time.
+     */
     public void complete() {
         System.out.println(Core.GREEN + "done.\n" + Core.RESET);
 
