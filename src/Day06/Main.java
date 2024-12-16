@@ -3,12 +3,13 @@ package Day06;
 import Common.Core;
 import Common.Day;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     static final int DIM = 130;
     public static void main(String[] args) {
-        Day<Integer, Integer> aocDay = new Day<>(6, "distinct positions", "");
+        Day<Integer, Integer> aocDay = new Day<>(6, "distinct positions", "obstruction positions");
 
         Scanner input = aocDay.start();
 
@@ -40,12 +41,36 @@ public class Main {
         System.out.printf(Core.WHITE + "found guard at %d, %d\n" + Core.RESET, gX, gY);
         Guard guard = new Guard(gX, gY, room);
 
-        while (guard.inMap()) {
-            guard.move();
-        }
+        // part 1; simply run the route
+
+        while (guard.inMap()) guard.move();
 
         aocDay.recordPart1(guard.uniqueVisited());
-//        aocDay.recordPart2(0);
+
+        // part 2; try adding obstructions on the route (only one per run) to find loops
+
+        int loopCount = 0;
+        int progress = 0;
+
+        ArrayList<Spot> visitedSpots = guard.getVisited();
+
+        for (Spot spot : visitedSpots) {
+            if (progress % 100 == 0) {
+                System.out.printf("%.1f%% complete...\n", ((double)progress / visitedSpots.size()) * 100);
+            }
+
+            guard.reset();
+            guard.addObstruction(spot.getX(), spot.getY());
+
+            while (guard.inMap() && !guard.inLoop()) guard.move();
+
+            guard.clearObstruction(spot.getX(), spot.getY());
+
+            loopCount += guard.inLoop() ? 1 : 0;
+            progress++;
+        }
+
+        aocDay.recordPart2(loopCount);
 
         aocDay.complete();
     }
