@@ -1,5 +1,7 @@
 package Day06;
 
+import Common.Point;
+
 import java.util.ArrayList;
 
 import static Day06.Orientation.*;
@@ -18,7 +20,7 @@ public class Guard {
     private boolean[][] map;
 
     private final ArrayList<Position> route = new ArrayList<>();
-    private final ArrayList<Spot> visited = new ArrayList<>();
+    private final ArrayList<Point> visited = new ArrayList<>();
 
     public Guard(int initialX, int initialY, boolean[][] map) {
         this.iniX = initialX;
@@ -64,7 +66,7 @@ public class Guard {
                 curX = nextX;
                 curY = nextY;
 
-                Spot s = new Spot(curX, curY);
+                Point s = new Point(curX, curY);
                 if (!visited.contains(s)) {
                     visited.add(s);
                 }
@@ -80,7 +82,7 @@ public class Guard {
 
     public int uniqueVisited() { return visited.size(); }
 
-    public ArrayList<Spot> getVisited() { return new ArrayList<>(visited); }
+    public ArrayList<Point> getVisited() { return new ArrayList<>(visited); }
 
     public void addObstruction(int x, int y) {
         map[y][x] = true;
