@@ -2,6 +2,7 @@ package Day06;
 
 import Common.Core;
 import Common.Day;
+import Common.Point;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -52,19 +53,19 @@ public class Main {
         int loopCount = 0;
         int progress = 0;
 
-        ArrayList<Spot> visitedSpots = guard.getVisited();
+        ArrayList<Point> visitedSpots = guard.getVisited();
 
-        for (Spot spot : visitedSpots) {
+        for (Point spot : visitedSpots) {
             if (progress % 100 == 0) {
                 System.out.printf("%.1f%% complete...\n", ((double)progress / visitedSpots.size()) * 100);
             }
 
             guard.reset();
-            guard.addObstruction(spot.getX(), spot.getY());
+            guard.addObstruction(spot.x(), spot.y());
 
             while (guard.inMap() && !guard.inLoop()) guard.move();
 
-            guard.clearObstruction(spot.getX(), spot.getY());
+            guard.clearObstruction(spot.x(), spot.y());
 
             loopCount += guard.inLoop() ? 1 : 0;
             progress++;
