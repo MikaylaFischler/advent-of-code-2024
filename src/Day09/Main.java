@@ -83,6 +83,13 @@ public class Main {
         aocDay.complete();
     }
 
+    /**
+     * Move a part of a file to the leftmost free space (towards index 0).
+     * @param value File ID
+     * @param address Current address
+     * @param memory Memory list
+     * @return If the file part moved
+     */
     private static boolean moveToFree(int value, int address, ArrayList<Integer> memory) {
         for (int i = 0; i < address; i++) {
             if (memory.get(i) < 0) {
@@ -94,12 +101,19 @@ public class Main {
         return false;
     }
 
+    /**
+     * Try to move a file to the left if free space exists (towards index 0).
+     * @param id File ID
+     * @param file File block
+     * @param memory Memory list
+     */
     private static void moveBlockToFree(int id, Block file, ArrayList<Integer> memory) {
         for (int i = 0; i < freeList.size(); i++) {
             final Block freeBlock = freeList.get(i);
 
-            if (freeBlock.size() >= file.size()) {
-                System.out.println("moving file " + id);
+            // don't move to the right, and it must fit
+            if ((freeBlock.address() < file.address()) && (freeBlock.size() >= file.size())) {
+//                System.out.println("moving file " + id);
 
                 for (int i1 = freeBlock.address(); i1 < (freeBlock.address() + file.size()); i1++) {
                     memory.set(i1, id);
@@ -109,22 +123,65 @@ public class Main {
                     memory.set(i1, -1);
                 }
 
-                if ((freeBlock.size() - file.size()) > 0) {
-                    final Block newBlock = new Block(freeBlock.address() + file.size(), freeBlock.size() - file.size());
-                    freeList.set(i, newBlock);
-                    System.out.println("resized freelist entry " + i + " : " + freeBlock + " -> " + newBlock);
+                final Block newFreeBlock = consolidateFreeBlock(freeBlock, memory);
+
+                if (newFreeBlock != null) {
+                    freeList.set(i, newFreeBlock);
+//                    System.out.println("resized freelist entry " + i + " : " + freeBlock + " -> " + newFreeBlock);
                 } else {
                     freeList.remove(i);
-                    System.out.println("removed freelist entry " + i);
+//                    System.out.println("removed freelist entry " + i);
                 }
 
                 return;
             }
         }
 
-        System.out.println("couldn't move file " + id);
+//        System.out.println("couldn't move file " + id);
     }
 
+    /**
+     * Given a free block, try to extend it to encompass surrounding free space.
+     * Returns null if the free block is to be deleted (no space).
+     * @param free Free block
+     * @param memory Memory list
+     * @return New free block (if space)
+     */
+    private static Block consolidateFreeBlock(Block free, ArrayList<Integer> memory) {
+        int freeStart = -1;
+        int freeEnd   = -1;
+
+        // End of old block
+        int commonStart = free.address() + free.size() - 1;
+
+        for (int i = commonStart; i >= 0; i--) {
+            if (memory.get(i) < 0) {
+                freeStart = i;
+            } else {
+                break;
+            }
+        }
+
+        for (int i = commonStart; i < memory.size(); i++) {
+            if (memory.get(i) < 0) {
+                freeEnd = i;
+            } else {
+                break;
+            }
+        }
+
+        if (freeStart > 0 && freeEnd > 0) {
+            return new Block(freeStart, (freeEnd - freeStart) + 1);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Compute the checksum of the disk/memory.
+     * @param memory Memory list
+     * @return Checksum
+     */
     private static long checksum(ArrayList<Integer> memory) {
         long sum = 0;
 
